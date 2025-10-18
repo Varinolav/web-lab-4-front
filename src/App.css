@@ -1,0 +1,75 @@
+@import "tailwindcss";
+
+/* Темная тема - кастомные цвета для Tailwind */
+@theme {
+  --color-dark-bg: #0f0f0f;
+  --color-dark-surface: #1a1a1a;
+  --color-dark-elevated: #1e1e1e;
+  --color-dark-border: #333333;
+  
+  --color-gray-soft-50: #e5e5e5;
+  --color-gray-soft-400: #a3a3a3;
+  --color-gray-soft-600: #737373;
+}
+
+/* Базовые стили */
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  color-scheme: dark;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+/* Кастомные анимации */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes glow-indigo {
+  0%, 100% {
+    filter: drop-shadow(0 0 2em rgba(99, 102, 241, 0.3));
+  }
+  50% {
+    filter: drop-shadow(0 0 3em rgba(99, 102, 241, 0.6));
+  }
+}
+
+@keyframes glow-cyan {
+  0%, 100% {
+    filter: drop-shadow(0 0 2em rgba(97, 218, 251, 0.3));
+  }
+  50% {
+    filter: drop-shadow(0 0 3em rgba(97, 218, 251, 0.6));
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+}
+
+.logo-glow {
+  transition: filter 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  filter: drop-shadow(0 0 2em rgba(99, 102, 241, 0.3));
+}
+
+.logo-glow:hover {
+  animation: glow-indigo 2s ease-in-out infinite;
+}
+
+.logo-glow-react:hover {
+  animation: glow-cyan 2s ease-in-out infinite;
+}
