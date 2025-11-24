@@ -10,11 +10,21 @@
   --color-gray-soft-50: #e5e5e5;
   --color-gray-soft-400: #a3a3a3;
   --color-gray-soft-600: #737373;
+  
+  /* CS2 Skins Tracker colors */
+  --color-primary: #4f46e5;
+  --color-background-light: #f6f8f7;
+  --color-background-dark: #111827;
+  --color-surface-dark: #1f2937;
+  --color-muted: #9ca3af;
+  
+  /* Font family */
+  --font-display: 'Space Grotesk', sans-serif;
 }
 
 /* Базовые стили */
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Space Grotesk', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   color-scheme: dark;
   font-synthesis: none;
   text-rendering: optimizeLegibility;

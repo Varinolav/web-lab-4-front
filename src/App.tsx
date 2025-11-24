@@ -1,17 +1,8 @@
-import {useState} from 'react'
 import './App.css'
-import SkinCard from "./components/SkinCard.tsx";
+import LoginPage from "./components/LoginPage.tsx";
 
 function App() {
-
-    return (
-        <div>
-            <SkinCard name="Ak-47" price="45$"/>
-            <SkinCard name="Ak-47" price="45$"/>
-            <SkinCard name="Ak-47" price="45$"/>
-        </div>
-
-    )
+    return <LoginPage />;
 }
 
 export default App
