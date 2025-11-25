@@ -31,6 +31,37 @@
     "termsOfService": "Условия использования",
     "contact": "Контакты",
     "copyright": "© 2024 Трекер Скинов CS2. Это приложение не связано с Valve или Steam."
+  },
+  "dashboard": {
+    "title": "Трекер Скинов CS2",
+    "loadingInventory": "Загрузка инвентаря...",
+    "failedToLoad": "Не удалось загрузить инвентарь",
+    "searchPlaceholder": "Поиск скина...",
+    "clearSearch": "Очистить поиск",
+    "logout": "Нажмите для выхода",
+    "gridView": "Вид сеткой",
+    "listView": "Вид списком",
+    "filter": "Фильтр",
+    "sortByPrice": "Сортировать по цене",
+    "noItemsFound": "Предметы, соответствующие \"{{query}}\", не найдены",
+    "noMarketableItems": "В вашем инвентаре не найдено предметов для продажи",
+    "unknownItem": "Неизвестный предмет",
+    "item": "Предмет",
+    "noImage": "Нет изображения",
+    "stats": {
+      "totalValue": "Общая стоимость инвентаря",
+      "change24h": "Изменение за 24ч",
+      "mostValuableItem": "Самый ценный предмет",
+      "totalItems": "Всего предметов"
+    },
+    "itemDetail": {
+      "priceHistory": "История цен",
+      "last30Days": "Последние 30 дней",
+      "floatValue": "Значение Float",
+      "patternIndex": "Индекс паттерна",
+      "steamMarket": "Steam Маркет",
+      "view": "Просмотр"
+    }
   }
 }
 

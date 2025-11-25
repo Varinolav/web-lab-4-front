@@ -1,28 +1,27 @@
 @import "tailwindcss";
 
-/* Темная тема - кастомные цвета для Tailwind */
+/* Theme colors for Tailwind */
 @theme {
-  --color-dark-bg: #0f0f0f;
-  --color-dark-surface: #1a1a1a;
-  --color-dark-elevated: #1e1e1e;
-  --color-dark-border: #333333;
-  
-  --color-gray-soft-50: #e5e5e5;
-  --color-gray-soft-400: #a3a3a3;
-  --color-gray-soft-600: #737373;
-  
-  /* CS2 Skins Tracker colors */
+  /* Welcome/Login page colors */
   --color-primary: #4f46e5;
   --color-background-light: #f6f8f7;
   --color-background-dark: #111827;
   --color-surface-dark: #1f2937;
   --color-muted: #9ca3af;
+  --color-border-dark: #374151;
+  
+  /* Dashboard colors */
+  --color-primary-dashboard: #13ec6a;
+  --color-background-dashboard: #102217;
+  --color-surface-dashboard: #234832;
+  --color-border-dashboard: #326747;
+  --color-text-secondary-dashboard: #92c9a8;
   
   /* Font family */
   --font-display: 'Space Grotesk', sans-serif;
 }
 
-/* Базовые стили */
+/* Base styles */
 :root {
   font-family: 'Space Grotesk', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   color-scheme: dark;
@@ -37,7 +36,13 @@ body {
   min-height: 100vh;
 }
 
-/* Кастомные анимации */
+/* Material Symbols */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  font-size: 24px;
+}
+
+/* Custom animations */
 @keyframes fadeInUp {
   from {
     opacity: 0;

@@ -31,6 +31,37 @@
     "termsOfService": "Terms of Service",
     "contact": "Contact",
     "copyright": "© 2024 CS2 Skins Tracker. This app is not affiliated with Valve or Steam."
+  },
+  "dashboard": {
+    "title": "CS2 Skin Tracker",
+    "loadingInventory": "Loading inventory...",
+    "failedToLoad": "Failed to load inventory",
+    "searchPlaceholder": "Search for a skin...",
+    "clearSearch": "Clear search",
+    "logout": "Click to logout",
+    "gridView": "Grid view",
+    "listView": "List view",
+    "filter": "Filter",
+    "sortByPrice": "Sort by Price",
+    "noItemsFound": "No items found matching \"{{query}}\"",
+    "noMarketableItems": "No marketable items found in your inventory",
+    "unknownItem": "Unknown Item",
+    "item": "Item",
+    "noImage": "No image",
+    "stats": {
+      "totalValue": "Total Inventory Value",
+      "change24h": "24h Change",
+      "mostValuableItem": "Most Valuable Item",
+      "totalItems": "Total Items"
+    },
+    "itemDetail": {
+      "priceHistory": "Price History",
+      "last30Days": "Last 30 Days",
+      "floatValue": "Float Value",
+      "patternIndex": "Pattern Index",
+      "steamMarket": "Steam Market",
+      "view": "View"
+    }
   }
 }
 
