@@ -25,7 +25,7 @@ export default function LoginPage() {
                                         <path d="M24 4C25.7818 14.2173 33.7827 22.2182 44 24C33.7827 25.7818 25.7818 33.7827 24 44C22.2182 33.7827 14.2173 25.7818 4 24C14.2173 22.2182 22.2182 14.2173 24 4Z" fill="currentColor"></path>
                                     </svg>
                                 </div>
-                                <h2 className="text-white text-lg font-bold leading-tight tracking-[-0.015em]">{t('header.title')}</h2>
+                                <h2 className="text-white text-lg font-bold leading-tight tracking-[-0.015em]">CS2 Skins Tracker</h2>
                             </div>
                             <div className="hidden md:flex flex-1 justify-end gap-8">
                                 <div className="flex items-center gap-9">
@@ -61,10 +61,7 @@ export default function LoginPage() {
                             <div className="@container py-16 md:py-24">
                                 <div className="@[480px]:p-4">
                                     <div 
-                                        className="flex min-h-[480px] flex-col gap-6 bg-cover bg-center bg-no-repeat @[480px]:gap-8 @[480px]:rounded-xl items-center justify-center p-4 text-center" 
-                                        style={{
-                                            backgroundImage: `linear-gradient(rgba(17, 24, 39, 0.8) 0%, rgba(17, 24, 39, 1) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuBB9WBT4bn4_wgZOuGBN5jLLzIvWGadEYVNJDONLPP9DC5MjamiMWZYMhucLXnT3ItQbRWAUcOzANQh_bn_v16DARYILDGHvO28zaAqBu0xBv8aaM-ZAOo4UJ_052SI_lTB4vqQsRUtm19JWpm7anwqb_gruqbHUsKAUAOXeptFyUDhHPMx_6LXWifgMkofJYLwWejSQ2CAB5ZjrUb221A3bN1DWF4q_EdE0y6XQgUhh-nCFfBqLsND_Tbpm2r7JFMkg3GaiKo2u38r")`
-                                        }}
+                                        className="flex min-h-[480px] flex-col gap-6 bg-cover bg-center bg-no-repeat @[480px]:gap-8 @[480px]:rounded-xl items-center justify-center p-4 text-center"
                                     >
                                         <div className="flex flex-col gap-4 max-w-2xl">
                                             <h1 className="text-white text-4xl font-bold leading-tight tracking-tight @[480px]:text-5xl @[480px]:font-bold @[480px]:leading-tight @[480px]:tracking-tighter">
@@ -80,9 +77,6 @@ export default function LoginPage() {
                                         >
                                             <span className="truncate">{t('hero.signInButton')}</span>
                                         </button>
-                                        <p className="text-muted text-xs font-normal leading-normal pt-1 px-4 text-center max-w-sm">
-                                            {t('hero.signInNote')}
-                                        </p>
                                     </div>
                                 </div>
                             </div>

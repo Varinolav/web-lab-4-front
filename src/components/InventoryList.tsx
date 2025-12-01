@@ -8,6 +8,7 @@ interface InventoryListProps {
     onItemSelect: (item: ItemDto) => void;
     onItemDeselect: () => void;
     searchQuery?: string;
+    onItemClick?: (item: ItemDto) => void;
 }
 
 export default function InventoryList({
@@ -16,6 +17,7 @@ export default function InventoryList({
                                           onItemSelect,
                                           onItemDeselect,
                                           searchQuery = '',
+                                          onItemClick,
                                       }: InventoryListProps) {
     const { t } = useTranslation();
     if (items.length === 0) {
@@ -38,6 +40,7 @@ export default function InventoryList({
                         viewMode={viewMode}
                         onSelect={onItemSelect}
                         onDeselect={onItemDeselect}
+                        onClick={onItemClick}
                     />
                 ))}
             </div>
@@ -54,6 +57,7 @@ export default function InventoryList({
                     viewMode={viewMode}
                     onSelect={onItemSelect}
                     onDeselect={onItemDeselect}
+                    onClick={onItemClick}
                 />
             ))}
         </div>

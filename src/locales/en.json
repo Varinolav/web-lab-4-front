@@ -1,14 +1,12 @@
 {
   "header": {
-    "title": "CS2 Skins Tracker",
     "features": "Features",
     "about": "About"
   },
   "hero": {
     "title": "Track Your CS2 Inventory Value",
     "subtitle": "Analyze price trends and manage your collection with ease. Connect your Steam account to see real-time price data, historical charts, and analytics for your entire skin collection.",
-    "signInButton": "Sign in via Steam",
-    "signInNote": "Login is secure and handled directly by Steam's official OpenID authentication."
+    "signInButton": "Sign in via Steam"
   },
   "features": {
     "title": "Your CS2 Skin Portfolio, Simplified",
@@ -30,7 +28,7 @@
     "privacyPolicy": "Privacy Policy",
     "termsOfService": "Terms of Service",
     "contact": "Contact",
-    "copyright": "© 2024 CS2 Skins Tracker. This app is not affiliated with Valve or Steam."
+    "copyright": "© 2025 CS2 Skins Tracker. This app is not affiliated with Valve or Steam."
   },
   "dashboard": {
     "title": "CS2 Skin Tracker",

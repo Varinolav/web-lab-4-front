@@ -1,10 +1,11 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { apiService } from '../services/api';
-import type { SteamUser, ItemDto } from '../services/api';
+import type { SteamUser, ItemDto, PriceTimeSeriesDto } from '../services/api';
 import InventoryList from './InventoryList';
 import StatsCards from './StatsCards';
 import ItemDetailPanel from './ItemDetailPanel';
+import ItemDetailModal from './ItemDetailModal';
 
 interface DashboardProps {
   user: SteamUser;
@@ -24,6 +25,9 @@ export default function Dashboard({ user, onLogout }: DashboardProps) {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [selectedItem, setSelectedItem] = useState<ItemDto | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [modalItem, setModalItem] = useState<ItemDto | null>(null);
+  const [itemPrices, setItemPrices] = useState<Map<string, number>>(new Map());
+  const [itemPriceHistories, setItemPriceHistories] = useState<Map<string, PriceTimeSeriesDto[]>>(new Map());
 
   useEffect(() => {
     const loadInventory = async () => {
@@ -47,6 +51,57 @@ export default function Dashboard({ user, onLogout }: DashboardProps) {
       loadInventory();
     }
   }, [user]);
+
+  // Fetch prices and price histories for all items
+  useEffect(() => {
+    const fetchAllPrices = async () => {
+      if (inventory.length === 0) {
+        setItemPrices(new Map());
+        setItemPriceHistories(new Map());
+        return;
+      }
+
+      try {
+        const itemsWithMarketHash = inventory.filter(item => item.marketHashName);
+        
+        // Fetch prices and histories in parallel for all items
+        const pricePromises = itemsWithMarketHash.map(async (item) => {
+          const marketHashName = item.marketHashName!;
+          try {
+            const [price, history] = await Promise.all([
+              apiService.getPrice(marketHashName),
+              apiService.getPriceHistory(marketHashName),
+            ]);
+            return { marketHashName, price, history };
+          } catch (error) {
+            console.error(`Failed to fetch price for ${marketHashName}:`, error);
+            return { marketHashName, price: null, history: [] };
+          }
+        });
+
+        const results = await Promise.all(pricePromises);
+        
+        const newPrices = new Map<string, number>();
+        const newHistories = new Map<string, PriceTimeSeriesDto[]>();
+        
+        results.forEach(({ marketHashName, price, history }) => {
+          if (price !== null) {
+            newPrices.set(marketHashName, price);
+          }
+          if (history.length > 0) {
+            newHistories.set(marketHashName, history);
+          }
+        });
+
+        setItemPrices(newPrices);
+        setItemPriceHistories(newHistories);
+      } catch (err) {
+        console.error('Failed to fetch prices:', err);
+      }
+    };
+
+    fetchAllPrices();
+  }, [inventory]);
 
   // Filter inventory based on search query
   const filteredInventory = useMemo(() => {
@@ -75,6 +130,68 @@ export default function Dashboard({ user, onLogout }: DashboardProps) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filteredInventory]);
+
+  // Calculate statistics
+  const stats = useMemo(() => {
+    let totalValue = 0;
+    let totalValue24hAgo = 0;
+    let mostValuableItem: { name: string; price: number } | null = null;
+    let mostValuableItemName = 'N/A';
+
+    inventory.forEach((item) => {
+      if (!item.marketHashName) return;
+      
+      const currentPrice = itemPrices.get(item.marketHashName);
+      if (currentPrice !== undefined && currentPrice !== null) {
+        totalValue += currentPrice;
+
+        // Find most valuable item
+        if (!mostValuableItem || currentPrice > mostValuableItem.price) {
+          const itemName = item.marketHashName || item.name || 'Unknown';
+          mostValuableItem = {
+            name: itemName,
+            price: currentPrice,
+          };
+          mostValuableItemName = itemName;
+        }
+
+        // Calculate 24h ago value from price history
+        const history = itemPriceHistories.get(item.marketHashName) || [];
+        if (history.length > 0) {
+          // Get price from 24 hours ago (or first available price if less than 24h of history)
+          const now = Date.now();
+          const twentyFourHoursAgo = now - 24 * 60 * 60 * 1000;
+          
+          // Find the closest price point to 24h ago
+          let price24hAgo = history[0].price; // Default to first price
+          for (let i = history.length - 1; i >= 0; i--) {
+            if (history[i].time <= twentyFourHoursAgo) {
+              price24hAgo = history[i].price;
+              break;
+            }
+          }
+          
+          totalValue24hAgo += price24hAgo;
+        } else {
+          // If no history, assume price was the same 24h ago
+          totalValue24hAgo += currentPrice;
+        }
+      }
+    });
+
+    const change24h = totalValue - totalValue24hAgo;
+    const changePercent = totalValue24hAgo > 0 
+      ? (change24h / totalValue24hAgo) * 100 
+      : 0;
+
+    return {
+      totalValue,
+      change24h,
+      changePercent,
+      mostValuableItem: mostValuableItemName,
+      totalItems: filteredInventory.length,
+    };
+  }, [inventory, itemPrices, itemPriceHistories, filteredInventory.length]);
 
   if (loading) {
     return (
@@ -110,19 +227,7 @@ export default function Dashboard({ user, onLogout }: DashboardProps) {
                 >
                   <div className="size-6 text-primary">
                     <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                      <g clipPath="url(#clip0_6_535)">
-                        <path
-                          clipRule="evenodd"
-                          d="M47.2426 24L24 47.2426L0.757355 24L24 0.757355L47.2426 24ZM12.2426 21H35.7574L24 9.24264L12.2426 21Z"
-                          fill="currentColor"
-                          fillRule="evenodd"
-                        />
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_6_535">
-                          <rect fill="white" height="48" width="48" />
-                        </clipPath>
-                      </defs>
+                      <path d="M24 4C25.7818 14.2173 33.7827 22.2182 44 24C33.7827 25.7818 25.7818 33.7827 24 44C22.2182 33.7827 14.2173 25.7818 4 24C14.2173 22.2182 22.2182 14.2173 24 4Z" fill="currentColor"></path>
                     </svg>
                   </div>
                   <h2 className="text-white text-lg font-bold leading-tight tracking-[-0.015em]">{t('dashboard.title')}</h2>
@@ -207,11 +312,11 @@ export default function Dashboard({ user, onLogout }: DashboardProps) {
             </header>
             <main className="flex flex-col gap-4 p-4">
               <StatsCards
-                totalValue={12345.67}
-                change24h={58.21}
-                changePercent={4.9}
-                mostValuableItem={selectedItem?.marketHashName || 'N/A'}
-                totalItems={filteredInventory.length}
+                totalValue={stats.totalValue}
+                change24h={stats.change24h}
+                changePercent={stats.changePercent}
+                mostValuableItem={stats.mostValuableItem}
+                totalItems={stats.totalItems}
               />
               {/* Toolbar */}
               <div className="flex justify-between items-center gap-2 py-3">
@@ -263,6 +368,7 @@ export default function Dashboard({ user, onLogout }: DashboardProps) {
                   onItemSelect={setSelectedItem}
                   onItemDeselect={() => setSelectedItem(filteredInventory[0] || null)}
                   searchQuery={searchQuery}
+                  onItemClick={setModalItem}
                 />
                 <div className="w-full xl:sticky xl:top-4">
                   {selectedItem && <ItemDetailPanel item={selectedItem} />}
@@ -272,6 +378,12 @@ export default function Dashboard({ user, onLogout }: DashboardProps) {
           </div>
         </div>
       </div>
+      {modalItem && (
+        <ItemDetailModal
+          item={modalItem}
+          onClose={() => setModalItem(null)}
+        />
+      )}
     </div>
     );
 }

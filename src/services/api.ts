@@ -35,6 +35,11 @@ export interface ResponseDto<T> {
   data?: T[];
 }
 
+export interface PriceTimeSeriesDto {
+  time: number;
+  price: number;
+}
+
 class ApiService {
   private async fetchWithCredentials<T>(
     endpoint: string,
@@ -95,6 +100,37 @@ class ApiService {
 
   getSteamLoginUrl(): string {
     return `${API_BASE_URL}/auth/steam/login`;
+  }
+
+  async getPrice(marketHashName: string): Promise<number | null> {
+    try {
+      const response = await this.fetchWithCredentials<number>(`/price?marketHashName=${encodeURIComponent(marketHashName)}`);
+      return response.data && response.data.length > 0 ? response.data[0] : null;
+    } catch (error) {
+      console.error('Failed to get price:', error);
+      return null;
+    }
+  }
+
+  async getPriceHistory(
+    marketHashName: string,
+    startTime?: string,
+    endTime?: string
+  ): Promise<PriceTimeSeriesDto[]> {
+    try {
+      let url = `/price/history?marketHashName=${encodeURIComponent(marketHashName)}`;
+      if (startTime) {
+        url += `&startTime=${encodeURIComponent(startTime)}`;
+      }
+      if (endTime) {
+        url += `&endTime=${encodeURIComponent(endTime)}`;
+      }
+      const response = await this.fetchWithCredentials<PriceTimeSeriesDto>(url);
+      return response.data || [];
+    } catch (error) {
+      console.error('Failed to get price history:', error);
+      return [];
+    }
   }
 }
 
